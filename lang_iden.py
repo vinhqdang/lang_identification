@@ -18,6 +18,10 @@ import timeit
 # for compared baseline models
 from baseline import *
 
+# for comparing with Google Language Detection code
+# https://code.google.com/p/language-detection/
+from langdetect import detect
+
 def parse_args():
     '''
     Parses the arguments.
@@ -40,7 +44,11 @@ def parse_args():
 
 args = parse_args()
 
-langs = ['en','fr','it','de']
+# get a list of languages
+langs = []
+for dir_name in os.listdir(args.train_dir):
+    if dir_name[0] != '.': #avoid system directory
+        langs.append (dir_name)
 
 def ngrams (text, n):
     """
@@ -133,13 +141,13 @@ def train ():
 
 def predict (lang_profiles, text):
     """
-    @brief      test the n-gram program
+    @brief      predict the language base on the n-gram
 
     @param      lang_profiles the language statistics comes from train() function
 
     @param      text the text whose language needed to be identified
     
-    @return     the predicting language
+    @return     the dictionary that contains the distance to each known language. The predicting language should be the one with smallest distance value.
     """
 
     test_ngrams = ngrams (text, n=args.n)
@@ -186,9 +194,11 @@ def main ():
     print ('Testing with only text snippets')
     results_ngram = {}
     results_baseline = {}
+
     for lang in langs:
         cur_results_ngram = {}
         cur_results_baseline = {}
+
         ngram_time = 0.0
         baseline_time = 0.0
 
