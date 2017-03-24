@@ -37,6 +37,13 @@ If you want to predict a particular text:
 
 The text should be written in English, because the distance to English profile (3001772) is minimum.
 
+You can get this value
+
+```{python}
+distances = predict (lang_profiles, "This is a new text that I want to predict")
+min(distances, key = distances.get)
+```
+
 ## Adding language
 
 Right now, English, German, Italian and French are supported. If you want to add more language, just follow the structure of ``train_data`` folder.
