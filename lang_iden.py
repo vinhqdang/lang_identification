@@ -116,7 +116,7 @@ def dist_ngram (ngram_stat_1, ngram_stat_2):
             sum_distance += MAX_DISTANCE
     return sum_distance
 
-def train ():
+def train (n=2):
     """
     @brief      get n-gram of trained data
     
@@ -136,7 +136,7 @@ def train ():
         contents[lang] = normalize (lang_content)
     lang_stats = {}
     for lang in langs:
-        lang_stats [lang] = ngram_stats (ngrams (contents[lang], n = args.n))
+        lang_stats [lang] = ngram_stats (ngrams (contents[lang], n = n))
     return lang_stats
 
 def predict (lang_profiles, text):
@@ -150,7 +150,7 @@ def predict (lang_profiles, text):
     @return     the dictionary that contains the distance to each known language. The predicting language should be the one with smallest distance value.
     """
 
-    test_ngrams = ngrams (text, n=args.n)
+    test_ngrams = ngrams (text, n = len(lang_profiles[lang_profiles.keys()[0]][0]))
     test_stats = ngram_stats (test_ngrams)
     distances = {}
     for lang in lang_profiles.keys ():
@@ -161,7 +161,7 @@ def predict (lang_profiles, text):
 
 def main ():
     print ('Training')
-    lang_stats = train ()
+    lang_stats = train (n = args.n)
 
     print ('Testing full content')
     contents = {}

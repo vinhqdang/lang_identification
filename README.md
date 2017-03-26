@@ -30,7 +30,7 @@ If you want to predict a particular text:
 ```{python}
 >>>python
 >>>from lang_iden import *
->>>lang_profiles = train ()
+>>>lang_profiles = train (n = 2) #using 2-gram
 >>>predict (lang_profiles, "This is a new text that I want to predict")
 {'fr': 3004550.0, 'de': 3003701.0, 'en': 3001772.0, 'it': 3005339.0}
 ```
